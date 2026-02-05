@@ -192,7 +192,7 @@
      <string notr="true">background-color:#b00b69</string>
     </property>
    </widget>
-   <widget class="QWidget" name="widget" native="true">
+   <widget class="Canvas" name="widget" native="true">
     <property name="geometry">
      <rect>
       <x>170</x>
@@ -227,6 +227,14 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Canvas</class>
+   <extends>QWidget</extends>
+   <header>canvas</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

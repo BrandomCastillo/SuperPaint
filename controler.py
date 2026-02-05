@@ -9,7 +9,7 @@ class MainController:
     #Declaramos eventos
     def connect_signals(self):
         self.ui.txtColor.textChanged.connect(self.update_color)
-        self.ui.slider.valueChanged.connect(self.update_pincel)
+        self.ui.Slider.valueChanged.connect(self.update_pincel)
 
     def update_pincel(self,width):
         #width = self.ui.slider.value
