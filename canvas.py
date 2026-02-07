@@ -8,13 +8,17 @@ class Canvas(QWidget):
         super().__init__(parent)
         self.setAttribute(Qt.WidgetAttribute.WA_StaticContents)
         self.image = QImage(self.size(), QImage.Format.Format_ARGB32)
-        self.image.fill(QColor("#042069"))
+        self.image.fill(QColor("#000000"))
         self.drawing = False
         self.last_point = QPoint()
         self.pen_color = QColor("#fff")
         self.pen_width = 2
+    def paintEvent(self, event):
+        with QPainter(self) as painter:
+            painter.drawImage(event.rect(), self.image, event.rect())
     
     def resizeEvent(self, event):
+        
         if self.width() > self.image.width() or self.height() > self.image.height():
             new_width=max(self.width(),self.image.width())
             max_height = max(self.height(), self.image.height())
@@ -24,7 +28,7 @@ class Canvas(QWidget):
                 painter.drawImage(0,0,self.image)
             self.image=new_image
         super().resizeEvent(event)
-        self.draw_examples()
+        #self.draw_examples()
     
     def draw_examples(self):
         with QPainter(self.image) as painter:
@@ -33,3 +37,21 @@ class Canvas(QWidget):
             painter.drawLine(0,300,600,300)
             painter.drawRect(265,265,70,70)
         self.update()
+        
+    def mousePressEvent(self, a0):
+        if a0.button() == Qt.MouseButton.LeftButton:
+            self.last_point = a0.position().toPoint()
+            self.drawing = True
+    def mouseMoveEvent(self, a0):
+        if (a0.buttons() & Qt.MouseButton.LeftButton) and self.drawing:
+            self.draw_line_to(a0.position().toPoint())
+    def mouseReleaseEvent(self, a0):
+        if (a0.button() == Qt.MouseButton.LeftButton) and self.drawing:
+            self.draw_line_to(a0.position().toPoint())
+            self.drawing=False
+    def draw_line_to(self, end_point):
+        with QPainter(self.image) as painter:
+            painter.setPen(QPen(self.pen_color,self.pen_width,Qt.PenStyle.SolidLine,Qt.PenCapStyle.RoundCap,Qt.PenJoinStyle.RoundJoin))
+            painter.drawLine(self.last_point, end_point)
+        self.update()
+        self.last_point=end_point
