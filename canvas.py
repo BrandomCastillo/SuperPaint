@@ -84,16 +84,38 @@ class Canvas(QWidget):
                 painter.drawLine(0,div*x,w,div*x)
         self.update()
     def draw_star(self,value):
+        self.clear()
         with QPainter(self.image) as painter:
             painter.setPen(QPen(QColor("#f00"),1, Qt.PenStyle.SolidLine,Qt.PenCapStyle.RoundCap,Qt.PenJoinStyle.RoundJoin))
             w = self.image.width()
             h = self.image.height()
-            div = int (w / int(value))
-            self.clear()
             mid_w = w//2
             mid_h = h//2
+            div = int (mid_w / int(value))
             painter.drawLine(mid_h,0,mid_w,h)
             painter.drawLine(0,mid_h,w,mid_h)
-            for x in range(1,div):
-                painter.drawLine(mid_w,div*x,(mid_w+div),mid_h)
-        self.update()
+            for x in range(1,value):
+                painter.drawLine(mid_w,div*x,(mid_w+(div*x)),mid_h)
+                painter.drawLine(mid_w,div*x,(mid_w-(div*x)),mid_h)
+                painter.drawLine(mid_w,h-(div*x),(mid_w+(div*x)),mid_h)
+                painter.drawLine(mid_w,h-(div*x),(mid_w-(div*x)),mid_h)
+        self.update()                             
+
+    def draw_f(self,value):
+        self.clear()
+        with QPainter(self.image) as painter:
+            painter.setPen(QPen(QColor("#f00"),1, Qt.PenStyle.SolidLine,Qt.PenCapStyle.RoundCap,Qt.PenJoinStyle.RoundJoin))
+            w = self.image.width()
+            h = self.image.height()
+            mid_w = w//2
+            mid_h = h//2
+            div = int (mid_w / int(value))
+            painter.drawLine(mid_h,0,mid_w,h)
+            painter.drawLine(0,mid_h,w,mid_h)
+            for x in range(1,value):
+                painter.drawLine(mid_w,(div*x)+mid_h,(mid_w+(div*x)),h)
+                painter.drawLine(mid_w,(div*x)+mid_h,(mid_w-(div*x)),h)
+                painter.drawLine(w,h-(div*x),(w-(div*x)),mid_h)
+                painter.drawLine(h,(div*x),(w-(div*x)),mid_h)
+                painter.drawLine(mid_h,(div*x),(mid_w-(div*x)),mid_h)
+            self.update()
