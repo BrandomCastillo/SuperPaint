@@ -7,7 +7,7 @@ class Ventana(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi("./views/MainWindow.ui",self)
-        self.controller = MainController(self,self)
+        self.controller = MainController(self,self) 
 
 app = QtWidgets.QApplication(sys.argv)
 ventana = Ventana()
